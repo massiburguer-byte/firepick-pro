@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #10B981; /* Emerald/Success accent */
+  --color-secondary: #2563EB; /* Cobalt/Info accent */
+  --color-accent: #6366F1;
+  --color-danger: #EF4444;
+  --color-bg-deep: #0D1117;
+  --color-bg-surface: #161B22;
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  
+  --font-inter: "Inter", sans-serif;
+  --font-outfit: "Outfit", sans-serif;
+}
+
+:root {
+  --primary: #10B981;
+  --secondary: #2563EB;
+  --bg-deep: #0D1117;
+  --bg-surface: #161B22;
+  --text-main: #F0F6FC;
+  --text-muted: #8B949E;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-inter);
+  background-color: #0D1117;
+  color: var(--text-main);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* App Scroll Isolation Utils */
+.main-scroll-bounds {
+  bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 1024px) {
+  .main-scroll-bounds {
+    bottom: 0px;
+  }
+}
+
+h1, h2, h3, h4, .font-outfit {
+  font-family: var(--font-outfit);
+  font-weight: 700;
+  color: white;
+}
+
+.font-sport {
+  font-family: var(--font-outfit);
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Premium Utilities */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.glass-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.premium-gradient {
+  background: linear-gradient(135deg, var(--primary) 0%, #0046B1 100%);
+}
+
+.sport-gradient-text {
+  background: linear-gradient(135deg, #FFFFFF 0%, #A2AAAD 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glow-primary {
+  box-shadow: 0 0 20px rgba(0, 45, 114, 0.4);
+}
+
+.glow-secondary {
+  box-shadow: 0 0 20px rgba(213, 0, 50, 0.4);
+}
+
+/* Buttons */
+.btn {
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.75rem;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white; /* FIXED: Was black before */
+  box-shadow: 0 4px 12px rgba(0, 45, 114, 0.2);
+}
+
+.btn-primary:hover {
+  background: #00378D;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 45, 114, 0.3);
+}
+
+.btn-secondary {
+  background: var(--secondary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(213, 0, 50, 0.2);
+}
+
+.btn-secondary:hover {
+  background: #B00029;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(213, 0, 50, 0.3);
+}
+
+/* Form Controls */
+.form-control {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: white;
+  font-family: var(--font-inter);
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: var(--primary);
+  outline: none;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(0, 45, 114, 0.1);
+}
+
+/* Badges */
+.badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-success { background: rgba(0, 132, 61, 0.1); color: #00843D; }
+.badge-warning { background: rgba(255, 163, 0, 0.1); color: #FFA300; }
+.badge-danger { background: rgba(213, 0, 50, 0.1); color: #D50032; }
+
+/* Custom Premium Scrollbar */
+::-webkit-scrollbar { 
+  width: 5px; 
+  height: 5px;
+}
+::-webkit-scrollbar-track { 
+  background: rgba(0, 21, 50, 1); 
+}
+::-webkit-scrollbar-thumb { 
+  background: rgba(255, 255, 255, 0.1); 
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+::-webkit-scrollbar-thumb:hover { 
+  background: var(--primary); 
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

@@ -1,0 +1,97 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * FUNCIÓN: isAdmin
+     * Verifica si el usuario autenticado tiene el rol de 'admin' en la base de datos.
+     */
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.email == 'adminp@fantasysport.com' ||
+        get(/databases/$(database)/documents/Users/$(request.auth.uid)).data.role == 'admin'
+      );
+    }
+
+    // Master Admin Rule
+    match /{document=**} {
+      allow read, write: if request.auth != null && request.auth.token.email == 'adminp@fantasysport.com';
+    }
+
+    /**
+     * COLECCIÓN: Users
+     * - Lectura: El dueño o Admin.
+     * - Creación: Cualquier usuario autenticado (para registro).
+     * - Actualización: 
+     *    1. Admin tiene control total (Recargas, cambios de rol).
+     *    2. Usuario solo puede ACTUALIZAR si su balance disminuye (apostando) 
+     *       y no cambia su rol.
+     */
+    match /Users/{userId} {
+      allow read: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      
+      allow update: if request.auth != null && (
+        isAdmin() || 
+        (
+          request.auth.uid == userId && 
+          request.resource.data.bankroll < resource.data.bankroll && // Solo puede gastar/apostar
+          request.resource.data.role == resource.data.role         // No puede ascenderse a Admin
+        )
+      );
+      
+      allow create: if request.auth != null;
+    }
+
+    /**
+     * COLECCIÓN: picks
+     * - Lectura: El dueño o Admin.
+     * - Creación: Solo el dueño puede crear sus propios picks.
+     * - Update/Delete: Solo Admin (para calificar resultados o limpiar historial).
+     */
+    match /picks/{pickId} {
+      allow read: if request.auth != null && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow create: if request.auth != null && 
+        request.resource.data.userId == request.auth.uid;
+      
+      allow update, delete: if isAdmin();
+    }
+
+    /**
+     * COLECCIONES: settings y game_odds
+     * - Lectura: Pública para usuarios registrados.
+     * - Escritura: Bloqueada solo para Admins.
+     */
+    match /settings/{docId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+
+    match /game_odds/{docId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+
+    match /guru_picks/{docId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+
+    match /line_history/{docId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+
+    match /deposit_requests/{docId} {
+      allow read: if request.auth != null && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    // Denegar cualquier otro acceso por defecto
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
