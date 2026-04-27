@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Trash2, TrendingUp, Info, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useTheme } from '../context/ThemeContext';
 
 const BaseballIcon = ({ size = 24, className = "" }) => (
   <svg 
@@ -28,6 +29,7 @@ const BaseballIcon = ({ size = 24, className = "" }) => (
 
 const BetSlip = ({ isOpen, onClose, cart, onRemove, onPlaceBets, isPlacing, bankroll }) => {
   const [stakes, setStakes] = useState({}); // { [gamePk]: stake }
+  const { theme } = useTheme();
 
   const handleStakeChange = (gamePk, value) => {
     setStakes(prev => ({ ...prev, [gamePk]: value }));
@@ -64,7 +66,7 @@ const BetSlip = ({ isOpen, onClose, cart, onRemove, onPlaceBets, isPlacing, bank
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-y-0 right-0 w-full md:w-[380px] bg-white z-[100] border-l border-slate-200 flex flex-col shadow-2xl animate-fade-right">
+    <div className={`fixed inset-y-0 right-0 w-full md:w-[380px] z-[100] border-l flex flex-col shadow-2xl animate-fade-right ${theme === 'mlb' ? 'bg-white border-slate-200' : 'bg-[#111111] border-white/10'}`}>
       <header className="p-5 border-b border-white/10 flex justify-between items-center bg-primary text-white">
         <div>
           <h2 className="text-lg font-bold font-outfit tracking-tight uppercase">MI TICKET</h2>
@@ -73,13 +75,13 @@ const BetSlip = ({ isOpen, onClose, cart, onRemove, onPlaceBets, isPlacing, bank
         <button onClick={onClose} className="p-2 hover:bg-white/10 rounded transition-all text-white"><X size={20} /></button>
       </header>
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-4">
+      <div className={`flex-1 overflow-y-auto p-6 space-y-4 ${theme === 'dark' ? 'bg-[#111111]' : ''}`}>
         {cart.map(item => {
           const currentStake = Number(stakes[item.gamePk] || 0);
           const isInvalid = currentStake > 0 && (currentStake < 5 || currentStake > 20);
           
           return (
-            <div key={item.gamePk} className={`p-4 border rounded shadow-sm relative group transition-all ${isInvalid ? 'border-secondary/50 bg-secondary/[0.02]' : 'bg-white border-slate-200'}`}>
+            <div key={item.gamePk} className={`p-4 border rounded shadow-sm relative group transition-all ${isInvalid ? 'border-secondary/50 bg-secondary/[0.02]' : theme === 'mlb' ? 'bg-white border-slate-200' : 'bg-[#222222] border-white/10'}`}>
               <button 
                 onClick={() => onRemove(item.gamePk)}
                 className="absolute -top-2 -right-2 w-6 h-6 bg-secondary rounded-full flex items-center justify-center text-white scale-0 group-hover:scale-100 transition-transform shadow-md z-10"
@@ -89,28 +91,29 @@ const BetSlip = ({ isOpen, onClose, cart, onRemove, onPlaceBets, isPlacing, bank
               <div className="flex justify-between items-start mb-3">
                 <div>
                   <p className="text-[9px] font-bold uppercase text-secondary tracking-wider mb-0.5">Selección {item.side === 'home' ? 'Local' : 'Visitante'}</p>
-                  <h4 className="font-bold text-sm tracking-tight text-primary uppercase">{item.team}</h4>
+                  <h4 className={`font-bold text-sm tracking-tight uppercase ${theme === 'dark' ? 'text-white' : 'text-primary'}`}>{item.team}</h4>
                 </div>
-                <span className={`font-bold text-xs px-2 py-1 rounded border ${item.odds >= 0 ? 'text-green-700 bg-green-50 border-green-100' : 'text-primary bg-slate-50 border-slate-100'}`}>
+                <span className={`font-bold text-xs px-2 py-1 rounded border ${item.odds >= 0 ? (theme === 'dark' ? 'text-green-500 bg-green-500/10 border-green-500/30' : 'text-green-700 bg-green-50 border-green-100') : (theme === 'dark' ? 'text-white/60 bg-white/[0.03] border-white/10' : 'text-primary bg-slate-50 border-slate-100')}`}>
                   {item.odds > 0 ? `+${item.odds}` : item.odds}
                 </span>
               </div>
               
               <div className="flex items-center gap-3">
                 <div className="flex-1 relative">
-                  <input 
-                    type="number" 
-                    placeholder="Inversión (U)"
-                    className={`h-10 w-full px-3 pr-10 text-base font-bold bg-slate-50 border rounded outline-none transition-all ${isInvalid ? 'border-secondary focus:ring-1 focus:ring-secondary/20' : 'border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary/10'}`}
-                    value={stakes[item.gamePk] || ''}
-                    onChange={(e) => handleStakeChange(item.gamePk, e.target.value)}
-                  />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] font-bold text-slate-400 uppercase">U</span>
+                   <input 
+                     type="number" 
+                     placeholder="Inversión (U)"
+                     className={`h-10 w-full px-3 pr-10 text-base font-bold border rounded outline-none transition-all ${isInvalid ? 'border-secondary focus:ring-1 focus:ring-secondary/20' : theme === 'mlb' ? 'border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary/10' : 'border-white/10 focus:border-primary focus:ring-1 focus:ring-primary/20'}
+                     ${theme === 'dark' ? 'bg-[#222222] text-white' : 'bg-slate-50 text-black'}`}
+                     value={stakes[item.gamePk] || ''}
+                     onChange={(e) => handleStakeChange(item.gamePk, e.target.value)}
+                   />
+                   <span className={`absolute right-3 top-1/2 -translate-y-1/2 text-[9px] font-bold uppercase ${theme === 'dark' ? 'text-white/40' : 'text-slate-400'}`}>U</span>
                 </div>
-                <div className="flex-1 text-right">
-                  <p className="text-[9px] font-bold text-slate-400 uppercase leading-none mb-1">Ganancia</p>
-                  <p className="text-green-600 font-bold text-lg leading-none">+{calculateWin(item.odds, stakes[item.gamePk])}U</p>
-                </div>
+                 <div className="flex-1 text-right">
+                   <p className={`text-[9px] font-bold uppercase leading-none mb-1 ${theme === 'dark' ? 'text-white/40' : 'text-slate-400'}`}>Ganancia</p>
+                   <p className="text-green-600 font-bold text-lg leading-none">+{calculateWin(item.odds, stakes[item.gamePk])}U</p>
+                 </div>
               </div>
               {isInvalid && (
                 <p className="text-[9px] text-secondary font-bold uppercase tracking-tight mt-2">Requerido: 5U - 20U</p>
@@ -118,45 +121,45 @@ const BetSlip = ({ isOpen, onClose, cart, onRemove, onPlaceBets, isPlacing, bank
             </div>
           );
         })}
-        {cart.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-20 text-text-muted border-2 border-dashed border-white/5 rounded-3xl">
-            <BaseballIcon size={48} className="mb-4 opacity-20" />
-            <p className="font-bold">El ticket está vacío</p>
-            <p className="text-xs uppercase tracking-widest mt-2">Selecciona un equipo para empezar</p>
-          </div>
-        )}
+         {cart.length === 0 && (
+            <div className={`flex flex-col items-center justify-center py-20 border-2 border-dashed rounded-3xl ${theme === 'dark' ? 'text-white/40 border-white/5 bg-white/[0.02]' : 'text-slate-500 border-slate-200 bg-slate-50'}`}>
+             <BaseballIcon size={48} className={`mb-4 ${theme === 'dark' ? 'text-white/20' : 'text-slate-300'}`} />
+             <p className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-700'}`}>El ticket está vacío</p>
+             <p className={`text-xs uppercase tracking-widest mt-2 ${theme === 'dark' ? 'text-white/40' : 'text-slate-500'}`}>Selecciona un equipo para empezar</p>
+           </div>
+         )}
       </div>
 
-      <footer className="p-6 bg-slate-50 border-t border-slate-200 space-y-4 shadow-[0_-4px_15px_rgba(0,0,0,0.05)]">
+       <footer className={`p-6 space-y-4 border-t shadow-[0_-4px_15px_rgba(0,0,0,0.05)] ${theme === 'mlb' ? 'bg-slate-50 border-slate-200' : 'bg-[#222222] border-white/10'}`}>
         <div className="space-y-2">
-          <div className="flex justify-between text-xs">
-            <span className="text-slate-400 uppercase font-bold tracking-wider">Total Inversión</span>
-            <span className="font-bold text-primary">{calculateTotalRisk()}U</span>
-          </div>
-          <div className="flex justify-between text-xl font-bold font-outfit uppercase tracking-tight">
-            <span className="text-slate-500">A Ganar</span>
-            <span className="text-secondary font-black">
-              {cart.reduce((acc, item) => acc + Number(calculateWin(item.odds, stakes[item.gamePk])), 0).toFixed(2)}U
-            </span>
-          </div>
+           <div className="flex justify-between text-xs">
+             <span className={`uppercase font-bold tracking-wider ${theme === 'dark' ? 'text-white/40' : 'text-slate-400'}`}>Total Inversión</span>
+             <span className="font-bold text-primary">{calculateTotalRisk()}U</span>
+           </div>
+           <div className="flex justify-between text-xl font-bold font-outfit uppercase tracking-tight">
+             <span className={theme === 'dark' ? 'text-white/60' : 'text-slate-500'}>A Ganar</span>
+             <span className="text-secondary font-black">
+               {cart.reduce((acc, item) => acc + Number(calculateWin(item.odds, stakes[item.gamePk])), 0).toFixed(2)}U
+             </span>
+           </div>
         </div>
 
-        <button 
+         <button 
           onClick={handleConfirm}
           disabled={cart.length === 0 || isPlacing}
-          className="w-full h-12 bg-primary hover:bg-primary-dark text-white font-bold rounded shadow-md disabled:bg-slate-300 disabled:shadow-none flex items-center justify-center gap-3 transition-colors uppercase tracking-wider text-sm"
+          className={`w-full h-12 bg-primary hover:bg-primary-dark text-white font-bold rounded shadow-md flex items-center justify-center gap-3 transition-colors uppercase tracking-wider text-sm ${theme === 'dark' ? 'disabled:bg-white/10 disabled:text-white/30' : 'disabled:bg-slate-300 disabled:shadow-none'}`}
         >
           {isPlacing ? <Loader2 className="animate-spin" /> : 'Confirmar Selecciones'}
         </button>
         
-        <div className="flex flex-col items-center gap-1 mt-2">
-           <div className="flex items-center gap-1.5 text-[10px] text-slate-400 uppercase font-bold tracking-wider">
-             <Info size={10} className="text-primary" /> Máximo: 5 Picks por Usuario
-           </div>
-           <div className="text-[10px] text-secondary font-bold uppercase tracking-wider">
-             Límites: 5U Min - 20U Max
-           </div>
-        </div>
+          <div className="flex flex-col items-center gap-1 mt-2">
+            <div className={`flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider ${theme === 'dark' ? 'text-white/40' : 'text-slate-400'}`}>
+              <Info size={10} className={theme === 'dark' ? 'text-white/60' : 'text-primary'} /> Máximo: 5 Picks por Usuario
+            </div>
+            <div className={`text-[10px] font-bold uppercase tracking-wider ${theme === 'dark' ? 'text-white/60' : 'text-secondary'}`}>
+              Límites: 5U Min - 20U Max
+            </div>
+          </div>
       </footer>
     </div>
   );

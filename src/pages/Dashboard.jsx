@@ -381,7 +381,7 @@ const Dashboard = () => {
         </button>
       )}
 
-      <BetSlip isOpen={isSlipOpen} onClose={() => setIsSlipOpen(false)} cart={cart} onRemove={(id) => setCart(prev => prev.filter(i => i.gamePk !== id))} onPlaceBets={handlePlaceBets} isPlacing={isPlacing} bankroll={userData?.bankroll || 0} theme={theme} />
+      <BetSlip isOpen={isSlipOpen} onClose={() => setIsSlipOpen(false)} cart={cart} onRemove={(id) => setCart(prev => prev.filter(i => i.gamePk !== id))} onPlaceBets={handlePlaceBets} isPlacing={isPlacing} bankroll={userData?.bankroll || 0} />
       <AiGuruDrawer isOpen={isAiOpen} onClose={() => setIsAiOpen(false)} dateIndex={dateIndex} onAddPick={togglePick} adminOdds={adminOdds} cart={cart} theme={theme} />
       <MatchupModal isOpen={isMatchupOpen} onClose={() => setIsMatchupOpen(false)} game={selectedGame} date={getDateForIndex(dateIndex)} onAddPick={togglePick} adminOdds={adminOdds} cart={cart} theme={theme} />
       <RecommendationModal isOpen={isRecModalOpen} onClose={() => setIsRecModalOpen(false)} recommendation={recommendation} theme={theme} />
