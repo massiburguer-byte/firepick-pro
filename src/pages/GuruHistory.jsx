@@ -22,7 +22,9 @@ import {
   Flame,
   ChevronRight,
   ShieldCheck,
-  Search
+  Search,
+  Calendar,
+  ChevronDown
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -33,6 +35,7 @@ const GuruHistory = () => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
+  const [dateFilter, setDateFilter] = useState('all'); // all, today, yesterday, week
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -77,13 +80,24 @@ const GuruHistory = () => {
                        (typeFilter === 'ml' && (pType === 'ml' || pType.includes('moneyline'))) ||
                        (typeFilter === 'totals' && pType.includes('totals')) ||
                        (typeFilter === 'k-pro' && (pType.includes('k-pro') || pType.includes('strikeouts')));
-    return matchesStatus && matchesType;
+    
+    // Date Filtering Logic
+    const today = new Date().toISOString().split('T')[0];
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+    const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().split('T')[0];
+    
+    let matchesDate = true;
+    if (dateFilter === 'today') matchesDate = p.gameDate === today;
+    else if (dateFilter === 'yesterday') matchesDate = p.gameDate === yesterday;
+    else if (dateFilter === 'week') matchesDate = p.gameDate >= weekAgo;
+
+    return matchesStatus && matchesType && matchesDate;
   });
 
   // Reset to first page when filtering
   useEffect(() => {
     setCurrentPage(1);
-  }, [filter, typeFilter]);
+  }, [filter, typeFilter, dateFilter]);
 
   const totalPages = Math.ceil(filteredPicks.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -202,13 +216,24 @@ const GuruHistory = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-6 md:gap-10 relative z-10 bg-black/40 p-6 md:p-8 rounded-2xl border border-white/5 backdrop-blur-xl shadow-2xl">
+            <div className="flex flex-wrap items-center gap-6 md:gap-10 relative z-10 bg-black/40 p-6 md:p-8 rounded-2xl border border-white/5 backdrop-blur-xl shadow-2xl">
               <div className="text-center">
                  <p className="text-[9px] text-white/20 font-black uppercase tracking-widest mb-1">Win Rate</p>
                  <p className="text-2xl md:text-4xl font-sport text-white italic tracking-tighter">{stats.winRate}<span className="text-lg text-white/20">%</span></p>
               </div>
               <div className="w-px h-12 bg-white/10" />
               <div className="text-center">
+                 <p className="text-[9px] text-white/20 font-black uppercase tracking-widest mb-1">W - L - P</p>
+                 <p className="text-2xl md:text-4xl font-sport italic tracking-tighter">
+                    <span className="text-emerald-400">{stats.won}</span>
+                    <span className="text-white/20 mx-2">-</span>
+                    <span className="text-danger">{stats.lost}</span>
+                    <span className="text-white/20 mx-2">-</span>
+                    <span className="text-blue-400">{stats.pending}</span>
+                 </p>
+              </div>
+              <div className="w-px h-12 bg-white/10 hidden sm:block" />
+              <div className="text-center hidden sm:block">
                  <p className="text-[9px] text-white/20 font-black uppercase tracking-widest mb-1">Total Analyzed</p>
                  <p className="text-2xl md:text-4xl font-sport text-secondary italic tracking-tighter">{stats.total}</p>
               </div>
@@ -247,22 +272,49 @@ const GuruHistory = () => {
 
           <div className={`rounded-2xl border transition-all duration-500 shadow-3xl overflow-hidden ${theme === 'mlb' ? 'bg-[#00142D] border-white/5' : 'bg-[#111111] border-white/5'}`}>
              <div className="px-6 py-6 lg:px-10 lg:py-10 border-b border-white/5 flex flex-col xl:flex-row justify-between items-center gap-6 lg:gap-10 bg-black/20">
-                <div className="flex flex-wrap items-center gap-2 md:gap-6">
-                   <div className="flex items-center gap-1.5 md:gap-3 bg-black/40 p-1.5 md:p-2 rounded-2xl border border-white/5">
-                      {['all', 'ganado', 'perdido', 'pendiente'].map(f => (
+                <div className="flex flex-wrap items-center gap-4 md:gap-8">
+                   {/* STATUS FILTERS */}
+                   <div className="flex items-center gap-1.5 bg-black/40 p-1.5 rounded-2xl border border-white/5">
+                      {[
+                        { id: 'all', label: 'TODOS', icon: Filter },
+                        { id: 'ganado', label: 'GANADOS', icon: CheckCircle2 },
+                        { id: 'perdido', label: 'FALLIDOS', icon: XCircle },
+                        { id: 'pendiente', label: 'EN CURSO', icon: Clock }
+                      ].map(f => (
                         <button
-                          key={f}
-                          onClick={() => setFilter(f)}
-                          className={`px-3 md:px-6 py-2 md:py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${filter === f ? (theme === 'mlb' ? 'bg-white text-black shadow-xl' : 'bg-white text-black shadow-xl') : 'text-white/40 hover:text-white'}`}
+                          key={f.id}
+                          onClick={() => setFilter(f.id)}
+                          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-500 ${filter === f.id ? 'bg-white text-black shadow-xl shadow-white/10' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
                         >
-                          {f === 'all' ? 'TODOS' : f}
+                          <f.icon size={12} className={filter === f.id ? 'text-black' : 'text-white/20'} />
+                          {f.label}
                         </button>
                       ))}
                    </div>
-                   <div className="h-8 w-px bg-white/10" />
-                   <div className="flex flex-wrap gap-2">
+
+                   {/* DATE FILTERS */}
+                   <div className="flex items-center gap-1.5 bg-black/40 p-1.5 rounded-2xl border border-white/5">
+                      {[
+                        { id: 'all', label: 'TODO TIEMPO' },
+                        { id: 'today', label: 'HOY' },
+                        { id: 'yesterday', label: 'AYER' },
+                        { id: 'week', label: '7 DÍAS' }
+                      ].map(d => (
+                        <button
+                          key={d.id}
+                          onClick={() => setDateFilter(d.id)}
+                          className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-500 ${dateFilter === d.id ? 'bg-secondary text-white shadow-xl shadow-secondary/20' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+                        >
+                          {d.label}
+                        </button>
+                      ))}
+                   </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-4 md:gap-8">
+                   <div className="flex items-center gap-2">
                      {[
-                       { id: 'all', label: 'TODOS' },
+                       { id: 'all', label: 'MERCADOS' },
                        { id: 'ml', label: 'MONEYLINE' },
                        { id: 'totals', label: 'TOTALS' },
                        { id: 'k-pro', label: 'K-PRO' }
@@ -270,39 +322,28 @@ const GuruHistory = () => {
                        <button
                          key={t.id}
                          onClick={() => setTypeFilter(t.id)}
-                         className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 border ${typeFilter === t.id ? 'bg-secondary border-secondary text-white shadow-xl shadow-secondary/20' : 'text-white/20 border-transparent hover:text-white hover:bg-white/5'}`}
+                         className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 border ${typeFilter === t.id ? 'bg-primary border-primary text-white' : 'text-white/20 border-white/5 hover:border-white/20 hover:text-white'}`}
                        >
                          {t.label}
                        </button>
                      ))}
                    </div>
-                </div>
 
-                <div className="flex items-center gap-8">
+                   <div className="h-10 w-px bg-white/10 hidden xl:block" />
+
                    <button 
                      onClick={() => {
                        toast.promise(syncGuruPicks(), {
-                          loading: 'Sincronizando con MLB...',
-                          success: 'Resultados actualizados',
-                          error: 'Error de conexión'
+                          loading: 'Auditoría en curso...',
+                          success: 'Historial Actualizado',
+                          error: 'Error de Sincronización'
                        });
                      }}
-                     className={`flex items-center gap-3 px-8 py-3 rounded-2xl font-sport text-[10px] uppercase tracking-widest transition-all duration-500 border italic ${theme === 'mlb' ? 'bg-white/5 text-white/40 border-white/10 hover:text-white hover:border-white/20' : 'bg-white/5 text-white/40 border-white/10 hover:text-white hover:border-white/20'}`}
+                     className="flex items-center gap-3 px-6 py-3 rounded-2xl font-sport text-[10px] uppercase tracking-widest transition-all duration-500 border italic bg-white/5 text-white/40 border-white/10 hover:text-white hover:border-white/20"
                    >
                      <RefreshCw size={14} />
-                     REFRESH SYNC
+                     FORCE SYNC
                    </button>
-                   <div className="h-10 w-px bg-white/10" />
-                   <div className="flex items-center gap-6">
-                      <div className="text-right">
-                         <p className="text-[8px] font-black text-white/20 uppercase tracking-widest">Accuracy</p>
-                         <p className="text-2xl font-sport text-emerald-400 italic leading-none">{stats.winRate}%</p>
-                      </div>
-                      <div className="text-right">
-                         <p className="text-[8px] font-black text-white/20 uppercase tracking-widest">Filter Count</p>
-                         <p className="text-2xl font-sport text-white italic leading-none">{filteredPicks.length}</p>
-                      </div>
-                   </div>
                 </div>
              </div>
 
@@ -364,7 +405,7 @@ const GuruHistory = () => {
                            </td>
 
                            <td className="hidden md:table-cell px-4 lg:px-16 py-6 lg:py-10 text-center">
-                              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#002D72]/40 rounded-xl text-white text-[10px] font-black uppercase tracking-widest border border-white/5 shadow-lg">
+                              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/[0.03] rounded-xl text-white text-[10px] font-black uppercase tracking-widest border border-white/5 shadow-lg group-hover:bg-white/[0.08] transition-colors">
                                  <Target size={12} className="text-secondary" /> {pick.guruPropType || 'AI PICK'}
                               </div>
                            </td>
