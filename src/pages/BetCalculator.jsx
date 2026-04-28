@@ -232,12 +232,12 @@ const BetCalculator = () => {
              initial={{ opacity: 0, scale: 0.98 }}
              animate={{ opacity: 1, scale: 1 }}
              exit={{ opacity: 0, scale: 1.02 }}
-             className={`rounded-[3rem] border border-white/5 overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.5)] ${theme === 'mlb' ? 'bg-[#00142D]' : 'bg-[#0A0A0A]'} relative`}
+             className={`rounded-2xl border border-white/5 overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.5)] ${theme === 'mlb' ? 'bg-[#00142D]' : 'bg-[#0A0A0A]'} relative`}
            >
               <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
               <div className="grid grid-cols-1 lg:grid-cols-12">
                  {/* INPUT SIDE */}
-                 <div className="lg:col-span-7 p-8 lg:p-16 border-b lg:border-b-0 lg:border-r border-white/5 relative z-10">
+                 <div className="lg:col-span-7 p-8 lg:p-12 border-b lg:border-b-0 lg:border-r border-white/5 relative z-10">
                     {activeTab === 'payout' && (
                        <div className="space-y-8">
                           <div className="space-y-4">
@@ -246,16 +246,16 @@ const BetCalculator = () => {
                                  Monto de Apuesta
                               </label>
                               <div className="relative group">
-                                 <div className="absolute -inset-1 bg-gradient-to-r from-secondary/20 to-primary/20 rounded-3xl blur opacity-0 group-focus-within:opacity-100 transition duration-500" />
+                                 <div className="absolute -inset-1 bg-gradient-to-r from-secondary/20 to-primary/20 rounded-xl blur opacity-0 group-focus-within:opacity-100 transition duration-500" />
                                  <input 
                                    type="text" 
                                    inputMode="decimal"
                                    value={stake} 
                                    onChange={handleInputChange(setStake)}
                                    onFocus={handleFocus}
-                                   className="relative w-full bg-black/40 border border-white/10 rounded-3xl h-24 px-10 text-white font-sport text-5xl italic outline-none focus:border-secondary/50 focus:bg-black/60 transition-all shadow-inner"
+                                   className="relative w-full bg-black/40 border border-white/10 rounded-xl h-20 pl-16 pr-10 text-white font-sport text-4xl italic outline-none focus:border-secondary/50 focus:bg-black/60 transition-all shadow-inner"
                                  />
-                                 <div className="absolute right-10 top-1/2 -translate-y-1/2 text-white/10 font-sport italic text-3xl group-focus-within:text-secondary transition-colors">UNITS</div>
+                                 <div className="absolute left-6 top-1/2 -translate-y-1/2 text-secondary font-sport italic text-xl group-focus-within:scale-110 transition-transform">U</div>
                               </div>
                              <input 
                                type="range" 
@@ -291,7 +291,7 @@ const BetCalculator = () => {
                                value={odds} 
                                onChange={handleInputChange(setOdds)}
                                onFocus={handleFocus}
-                               className="w-full bg-black/40 border border-white/10 rounded-3xl h-24 px-10 text-white font-sport text-5xl italic outline-none focus:border-secondary transition-all"
+                               className="w-full bg-black/40 border border-white/10 rounded-xl h-20 pl-16 pr-10 text-white font-sport text-4xl italic outline-none focus:border-secondary transition-all"
                                placeholder={oddsFormat === 'american' ? '+100' : '2.00'}
                              />
                           </div>
@@ -477,24 +477,30 @@ const BetCalculator = () => {
 
                     {activeTab === 'converter' && (
                        <div className="space-y-8">
-                          <div className="p-6 rounded-2xl bg-black/40 border border-white/5 space-y-6">
-                             <div className="space-y-3">
-                                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest ml-1">Americana</label>
+                          <div className="p-8 rounded-2xl bg-black/40 border border-white/5 space-y-8">
+                             <div className="space-y-4">
+                                <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-1 flex items-center gap-2">
+                                   <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
+                                   Cuota Americana
+                                </label>
                                 <input 
                                   type="text" 
                                   inputMode="text"
                                   value={odds} 
                                   onChange={handleInputChange(setOdds)}
                                   onFocus={handleFocus}
-                                  className="w-full bg-white/5 border border-white/10 rounded-xl h-14 px-6 text-white font-sport text-2xl italic outline-none focus:border-secondary transition-all"
+                                  className="w-full bg-white/5 border border-white/10 rounded-xl h-20 pl-16 pr-10 text-white font-sport text-4xl italic outline-none focus:border-secondary transition-all"
                                 />
                              </div>
                              <div className="flex justify-center">
-                                <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/20"><ArrowRightLeft size={16} /></div>
+                                <div className="w-12 h-12 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary shadow-[0_0_20px_rgba(255,184,0,0.1)]"><ArrowRightLeft size={20} /></div>
                              </div>
-                             <div className="space-y-3">
-                                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest ml-1">Decimal</label>
-                                <div className="w-full bg-secondary/5 border border-secondary/20 rounded-xl h-14 px-6 text-secondary font-sport text-2xl italic flex items-center">
+                             <div className="space-y-4">
+                                <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-1 flex items-center gap-2">
+                                   <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+                                   Cuota Decimal
+                                </label>
+                                <div className="w-full bg-white/5 border border-white/10 rounded-xl h-20 pl-16 pr-10 text-white font-sport text-4xl italic flex items-center">
                                    {americanToDecimal(odds).toFixed(2)}
                                 </div>
                              </div>
@@ -504,7 +510,7 @@ const BetCalculator = () => {
                  </div>
 
                  {/* RESULTS SIDE */}
-                 <div className={`lg:col-span-5 p-8 lg:p-16 ${theme === 'mlb' ? 'bg-[#001E46]' : 'bg-[#111111]'} flex flex-col justify-center relative`}>
+                 <div className={`lg:col-span-5 p-8 lg:p-12 ${theme === 'mlb' ? 'bg-[#001E46]' : 'bg-[#111111]'} flex flex-col justify-center relative`}>
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5 pointer-events-none" />
                     <div className="relative z-10 w-full">
                        <div className="flex items-center gap-3 text-secondary font-black uppercase tracking-[0.4em] text-[10px] mb-12">
