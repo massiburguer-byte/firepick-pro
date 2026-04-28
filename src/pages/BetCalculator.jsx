@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
+import Navbar from '../components/Navbar';
 import ExpertGuideModal from '../components/ExpertGuideModal';
 import { 
   Calculator, 
