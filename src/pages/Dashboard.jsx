@@ -296,16 +296,30 @@ const Dashboard = () => {
                          </div>
                       </div>
 
-                      <div className="flex flex-col gap-4">
-                         <button onClick={() => setIsAiOpen(true)} className={`group relative px-8 py-4 ${theme === 'mlb' ? 'bg-secondary' : 'bg-white text-black'} rounded-xl font-sport text-sm flex items-center justify-center gap-3 transition-all shadow-2xl active:scale-95 tracking-[0.2em] italic uppercase`}>
-                           <Brain size={20} className="group-hover:rotate-12 transition-transform" /> 
-                           Launch Guru
+                      <div className="grid grid-cols-3 gap-3 sm:gap-6 w-full lg:w-auto">
+                         <button 
+                           onClick={() => setIsAiOpen(true)} 
+                           className={`group relative flex flex-col items-center justify-center p-4 sm:p-6 rounded-2xl transition-all duration-500 shadow-2xl active:scale-95 border border-white/10 overflow-hidden ${theme === 'mlb' ? 'bg-secondary text-white' : 'bg-white text-black'}`}
+                         >
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            <Brain size={24} className="mb-3 group-hover:scale-110 transition-transform" />
+                            <span className="text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] italic text-center">Launch Guru</span>
                          </button>
-                         <button onClick={() => setIsRecModalOpen(true)} className="px-8 py-3 bg-white/5 border border-white/10 text-white rounded-xl font-sport text-[10px] flex items-center justify-center gap-2 hover:bg-white/10 transition-all tracking-[0.2em] uppercase italic">
-                           <Activity size={14} /> Analytics Pro
+
+                         <button 
+                           onClick={() => setIsRecModalOpen(true)} 
+                           className="group relative flex flex-col items-center justify-center p-4 sm:p-6 rounded-2xl bg-white/5 border border-white/10 text-white transition-all duration-500 hover:bg-white/10 hover:border-white/20 shadow-xl active:scale-95"
+                         >
+                            <Activity size={20} className="mb-3 text-secondary group-hover:rotate-12 transition-transform" />
+                            <span className="text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] italic text-center">Analytics Pro</span>
                          </button>
-                         <Link to="/calculator" className="px-8 py-3 bg-secondary/10 border border-secondary/20 text-secondary rounded-xl font-sport text-[10px] flex items-center justify-center gap-2 hover:bg-secondary/20 transition-all tracking-[0.2em] uppercase italic">
-                           <Calculator size={14} /> Calculadora
+
+                         <Link 
+                           to="/calculator" 
+                           className="group relative flex flex-col items-center justify-center p-4 sm:p-6 rounded-2xl bg-secondary/10 border border-secondary/20 text-secondary transition-all duration-500 hover:bg-secondary/20 shadow-xl active:scale-95"
+                         >
+                            <Calculator size={20} className="mb-3 group-hover:-translate-y-1 transition-transform" />
+                            <span className="text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] italic text-center">Calculadora</span>
                          </Link>
                       </div>
                    </div>
