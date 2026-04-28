@@ -66,7 +66,7 @@ const BetSlip = ({ isOpen, onClose, cart, onRemove, onPlaceBets, isPlacing, bank
   if (!isOpen) return null;
 
   return (
-    <div className={`fixed inset-y-0 right-0 w-full md:w-[380px] z-[100] border-l flex flex-col shadow-2xl animate-fade-right ${theme === 'mlb' ? 'bg-white border-slate-200' : 'bg-[#111111] border-white/10'}`}>
+    <div className={`fixed top-0 right-0 bottom-24 w-full md:w-[380px] z-[101] border-l flex flex-col shadow-2xl animate-fade-right ${theme === 'mlb' ? 'bg-white border-slate-200' : 'bg-[#111111] border-white/10'}`}>
       <header className="p-5 border-b border-white/10 flex justify-between items-center bg-primary text-white">
         <div>
           <h2 className="text-lg font-bold font-outfit tracking-tight uppercase">MI TICKET</h2>
