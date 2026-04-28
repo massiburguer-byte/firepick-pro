@@ -375,9 +375,12 @@ const Dashboard = () => {
       </div>
 
       {cart.length > 0 && (
-        <button onClick={() => setIsSlipOpen(true)} className={`fixed bottom-10 right-10 w-16 h-16 rounded-full ${theme === 'mlb' ? 'bg-secondary' : 'bg-white text-black'} shadow-3xl flex items-center justify-center z-50 transition-all hover:scale-110 active:scale-95 group`}>
+        <button 
+          onClick={() => setIsSlipOpen(true)} 
+          className={`fixed bottom-28 md:bottom-10 right-6 md:right-10 w-14 h-14 md:w-16 md:h-16 rounded-full ${theme === 'mlb' ? 'bg-secondary' : 'bg-white text-black'} shadow-3xl flex items-center justify-center z-50 transition-all hover:scale-110 active:scale-95 group border-2 border-white/10`}
+        >
           <div className="absolute -top-1 -right-1 w-6 h-6 bg-white text-black rounded-full text-[10px] flex items-center justify-center font-black border-2 border-secondary group-hover:rotate-12 transition-transform">{cart.length}</div>
-          <Zap size={28} />
+          <Zap size={24} className="md:size-[28px]" />
         </button>
       )}
 

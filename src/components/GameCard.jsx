@@ -36,10 +36,11 @@ const GameCard = ({ game, adminOdds, onPick, selectedSide, onOpenAnalysis, theme
       animate={{ opacity: 1, y: 0 }}
       className={`group relative flex flex-col md:flex-row items-center gap-6 p-6 transition-all duration-500 border-b border-white/[0.03] ${!isOpen ? 'opacity-40 grayscale-[0.5]' : 'hover:bg-white/[0.02]'}`}
     >
-      {/* 1. TIME & STATUS (LEFT) */}
-      <div className="w-full md:w-24 flex md:flex-col items-center justify-center md:border-r border-white/5 md:pr-8 gap-2">
-        <span className="text-sm font-sport italic text-white leading-none">{gameTime}</span>
-        <span className="text-[9px] font-black text-white/20 uppercase tracking-widest">Hoy</span>
+      {/* 1. TIME & STATUS (LEFT/BADGE) */}
+      <div className="absolute top-0 left-6 md:left-auto md:relative transform -translate-y-1/2 md:translate-y-0 bg-[#050505] md:bg-transparent border border-white/10 md:border-none md:border-r px-3 py-1 md:px-0 md:py-0 md:pr-8 rounded-full md:rounded-none flex md:flex-col items-center justify-center gap-1 z-20">
+        <Clock size={10} className="md:hidden text-secondary" />
+        <span className="text-[10px] md:text-sm font-sport italic text-white leading-none">{gameTime}</span>
+        <span className="hidden md:block text-[9px] font-black text-white/20 uppercase tracking-widest">Hoy</span>
       </div>
 
       {/* 2. TEAMS & ODDS (CENTER) */}
