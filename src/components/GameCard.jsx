@@ -36,75 +36,72 @@ const GameCard = ({ game, adminOdds, onPick, selectedSide, onOpenAnalysis, theme
       animate={{ opacity: 1, y: 0 }}
       className={`group relative flex flex-col md:flex-row items-center gap-6 p-6 transition-all duration-500 border-b border-white/[0.03] ${!isOpen ? 'opacity-40 grayscale-[0.5]' : 'hover:bg-white/[0.02]'}`}
     >
-      {/* 1. TIME & STATUS (LEFT/BADGE) */}
-      <div className="absolute top-0 left-6 md:left-auto md:relative transform -translate-y-1/2 md:translate-y-0 bg-[#050505] md:bg-transparent border border-white/10 md:border-none md:border-r px-3 py-1 md:px-0 md:py-0 md:pr-8 rounded-full md:rounded-none flex md:flex-col items-center justify-center gap-1 z-20">
-        <Clock size={10} className="md:hidden text-secondary" />
-        <span className="text-[10px] md:text-sm font-sport italic text-white leading-none">{gameTime}</span>
-        <span className="hidden md:block text-[9px] font-black text-white/20 uppercase tracking-widest">Hoy</span>
-      </div>
-
-      {/* 2. TEAMS & ODDS (CENTER) */}
-      <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+      {/* 2. TEAMS & TIME (CENTER - 3 COLUMNS) */}
+      <div className="flex-1 flex flex-row items-center gap-1 md:gap-4 w-full overflow-hidden">
         {/* AWAY TEAM */}
         <div 
           onClick={() => isOpen && onPick(game.gamePk, away.team.name, a_odds, 'away')}
-          className={`relative overflow-hidden flex items-center justify-between p-4 rounded-xl cursor-pointer transition-all duration-300 border ${
+          className={`flex-1 relative overflow-hidden flex flex-col sm:flex-row items-center sm:justify-between p-2 md:p-4 rounded-xl cursor-pointer transition-all duration-300 border min-w-0 ${
             selectedSide === 'away' 
               ? `${theme === 'mlb' ? 'bg-secondary/20 border-secondary shadow-[0_0_20px_rgba(255,184,0,0.1)]' : 'bg-white/10 border-white shadow-[0_0_20px_rgba(255,255,255,0.05)]'}` 
               : 'bg-black/20 border-white/5 hover:border-white/20'
           }`}
         >
-          <div className="flex items-center gap-4 relative z-10">
-            <div className="w-10 h-10 rounded-lg bg-white/5 p-1.5 flex items-center justify-center border border-white/5 shadow-inner">
+          <div className="flex flex-col sm:flex-row items-center gap-1 md:gap-3 relative z-10 min-w-0 text-center sm:text-left">
+            <div className="w-6 h-6 md:w-10 md:h-10 rounded-lg bg-white/5 p-1 flex items-center justify-center border border-white/5 shadow-inner shrink-0">
                <img src={getTeamLogo(away.team.id)} alt="" className="w-full h-full object-contain filter drop-shadow-sm" />
             </div>
-            <div className="flex flex-col">
-              <span className={`text-sm font-black uppercase tracking-tight transition-colors ${selectedSide === 'away' ? (theme === 'mlb' ? 'text-secondary' : 'text-white') : 'text-white/80'}`}>
+            <div className="flex flex-col min-w-0">
+              <span className={`text-[9px] md:text-sm font-black uppercase tracking-tight transition-colors truncate ${selectedSide === 'away' ? (theme === 'mlb' ? 'text-secondary' : 'text-white') : 'text-white/80'}`}>
                 {away.team.name}
               </span>
-              <span className="text-[9px] font-black text-white/20 uppercase tracking-widest">{getPitcherName(away)}</span>
+              <span className="hidden sm:block text-[8px] font-black text-white/20 uppercase tracking-widest truncate">{getPitcherName(away)}</span>
             </div>
           </div>
-          <div className="flex flex-col items-end relative z-10">
-             <span className={`text-base font-sport italic tracking-tighter ${selectedSide === 'away' ? 'text-white scale-110' : 'text-white/40'} transition-all`}>
+          <div className="flex flex-col items-center sm:items-end relative z-10 shrink-0">
+             <span className={`text-[11px] md:text-base font-sport italic tracking-tighter ${selectedSide === 'away' ? 'text-white scale-110' : 'text-white/40'} transition-all`}>
                {isOpen ? (a_odds > 0 ? `+${a_odds}` : a_odds) : '---'}
              </span>
           </div>
-          
-          {selectedSide === 'away' && (
-             <div className="absolute right-0 top-0 bottom-0 w-1 bg-secondary animate-pulse" />
-          )}
+          {selectedSide === 'away' && <div className="absolute right-0 top-0 bottom-0 w-1 bg-secondary animate-pulse" />}
+        </div>
+
+        {/* TIME / VS COLUMN */}
+        <div className="flex flex-col items-center justify-center gap-1 px-1 shrink-0 min-w-[50px] md:min-w-[80px]">
+           <div className="h-px w-4 md:w-8 bg-white/5 hidden md:block" />
+           <div className="flex flex-col items-center">
+              <span className="text-[8px] md:text-xs font-sport italic text-secondary leading-none mb-0.5">{gameTime}</span>
+              <span className="text-[7px] font-black text-white/20 uppercase tracking-widest">vs</span>
+           </div>
+           <div className="h-px w-4 md:w-8 bg-white/5 hidden md:block" />
         </div>
 
         {/* HOME TEAM */}
         <div 
           onClick={() => isOpen && onPick(game.gamePk, home.team.name, h_odds, 'home')}
-          className={`relative overflow-hidden flex items-center justify-between p-4 rounded-xl cursor-pointer transition-all duration-300 border ${
+          className={`flex-1 relative overflow-hidden flex flex-col sm:flex-row items-center sm:justify-between p-2 md:p-4 rounded-xl cursor-pointer transition-all duration-300 border min-w-0 ${
             selectedSide === 'home' 
               ? `${theme === 'mlb' ? 'bg-secondary/20 border-secondary shadow-[0_0_20px_rgba(255,184,0,0.1)]' : 'bg-white/10 border-white shadow-[0_0_20px_rgba(255,255,255,0.05)]'}` 
               : 'bg-black/20 border-white/5 hover:border-white/20'
           }`}
         >
-          <div className="flex items-center gap-4 relative z-10">
-            <div className="w-10 h-10 rounded-lg bg-white/5 p-1.5 flex items-center justify-center border border-white/5 shadow-inner">
+          <div className="flex flex-col sm:flex-row items-center gap-1 md:gap-3 relative z-10 min-w-0 text-center sm:text-left">
+            <div className="w-6 h-6 md:w-10 md:h-10 rounded-lg bg-white/5 p-1 flex items-center justify-center border border-white/5 shadow-inner shrink-0">
                <img src={getTeamLogo(home.team.id)} alt="" className="w-full h-full object-contain filter drop-shadow-sm" />
             </div>
-            <div className="flex flex-col">
-              <span className={`text-sm font-black uppercase tracking-tight transition-colors ${selectedSide === 'home' ? (theme === 'mlb' ? 'text-secondary' : 'text-white') : 'text-white/80'}`}>
+            <div className="flex flex-col min-w-0">
+              <span className={`text-[9px] md:text-sm font-black uppercase tracking-tight transition-colors truncate ${selectedSide === 'home' ? (theme === 'mlb' ? 'text-secondary' : 'text-white') : 'text-white/80'}`}>
                 {home.team.name}
               </span>
-              <span className="text-[9px] font-black text-white/20 uppercase tracking-widest">{getPitcherName(home)}</span>
+              <span className="hidden sm:block text-[8px] font-black text-white/20 uppercase tracking-widest truncate">{getPitcherName(home)}</span>
             </div>
           </div>
-          <div className="flex flex-col items-end relative z-10">
-             <span className={`text-base font-sport italic tracking-tighter ${selectedSide === 'home' ? 'text-white scale-110' : 'text-white/40'} transition-all`}>
+          <div className="flex flex-col items-center sm:items-end relative z-10 shrink-0">
+             <span className={`text-[11px] md:text-base font-sport italic tracking-tighter ${selectedSide === 'home' ? 'text-white scale-110' : 'text-white/40'} transition-all`}>
                {isOpen ? (h_odds > 0 ? `+${h_odds}` : h_odds) : '---'}
              </span>
           </div>
-
-          {selectedSide === 'home' && (
-             <div className="absolute right-0 top-0 bottom-0 w-1 bg-secondary animate-pulse" />
-          )}
+          {selectedSide === 'home' && <div className="absolute right-0 top-0 bottom-0 w-1 bg-secondary animate-pulse" />}
         </div>
       </div>
 
