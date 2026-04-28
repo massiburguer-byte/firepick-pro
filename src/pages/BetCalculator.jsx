@@ -157,56 +157,70 @@ const BetCalculator = () => {
     <div className={`min-h-screen transition-all duration-700 ${theme === 'mlb' ? 'bg-[#000B1C]' : 'bg-[#050505]'} text-white pb-32 relative overflow-hidden`}>
       {/* ATMOSPHERIC DECOR */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-         <div className={`absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full blur-[150px] opacity-[0.07] ${theme === 'mlb' ? 'bg-secondary' : 'bg-primary'}`} />
-         <div className={`absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full blur-[150px] opacity-[0.05] ${theme === 'mlb' ? 'bg-primary' : 'bg-secondary'}`} />
+         <div className={`absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full blur-[150px] opacity-[0.1] ${theme === 'mlb' ? 'bg-secondary' : 'bg-primary'}`} />
+         <div className={`absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full blur-[150px] opacity-[0.08] ${theme === 'mlb' ? 'bg-primary' : 'bg-secondary'}`} />
       </div>
 
       <Navbar />
 
-      <main className="w-full max-w-5xl mx-auto px-6 mt-12 lg:mt-24 relative z-10">
-        {/* HEADER SECTION */}
-        <div className="mb-12">
-           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 text-center lg:text-left">
-              <div>
-                 <div className="flex items-center justify-center lg:justify-start gap-3 text-secondary font-black uppercase tracking-[0.3em] text-[10px] mb-4">
-                    <Calculator size={14} className="fill-current" /> Herramientas Pro
-                 </div>
-                 <h1 className="font-sport text-4xl lg:text-6xl text-white tracking-tighter uppercase italic leading-none mb-4">
-                    Calculadora <span className="text-secondary">Elite</span>
+      <main className="w-full max-w-6xl mx-auto px-6 mt-12 lg:mt-20 relative z-10">
+        {/* HEADER SECTION - ULTRA PREMIUM */}
+        <div className="mb-16 relative">
+           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+              <div className="relative">
+                 <motion.div 
+                   initial={{ opacity: 0, x: -20 }}
+                   animate={{ opacity: 1, x: 0 }}
+                   className="flex items-center gap-3 text-secondary font-black uppercase tracking-[0.4em] text-[9px] mb-6"
+                 >
+                    <div className="w-8 h-px bg-secondary/50" />
+                    <Calculator size={12} className="text-secondary animate-pulse" /> LABORATORY PRO
+                 </motion.div>
+                 <h1 className="font-sport text-5xl lg:text-8xl text-white tracking-tighter uppercase italic leading-[0.85] mb-6">
+                    CALCULADORA<br />
+                    <span className={`text-transparent bg-clip-text ${theme === 'mlb' ? 'bg-gradient-to-r from-secondary via-white to-secondary' : 'bg-gradient-to-r from-white via-white/50 to-white'}`}>QUANTUM</span>
                  </h1>
-                 <p className="text-white/40 font-black uppercase tracking-widest text-[10px]">
-                    Analiza tus riesgos • Maximiza tus retornos • Domina las cuotas
+                 <p className="max-w-md text-white/30 font-black uppercase tracking-[0.2em] text-[10px] leading-relaxed italic">
+                    Algoritmos de precisión quirúrgica para el análisis de mercados deportivos. <span className="text-secondary/50 underline underline-offset-4">Maximiza cada unidad invertida.</span>
                  </p>
               </div>
-              <button 
-                onClick={() => setIsGuideOpen(true)}
-                className="px-8 py-3 bg-white/5 border border-white/10 text-white rounded-xl font-sport text-[10px] flex items-center justify-center gap-2 hover:bg-white/10 transition-all tracking-[0.2em] uppercase italic group"
-              >
-                <TrendingUp size={14} className="text-secondary group-hover:scale-125 transition-transform" /> 
-                Guía del Experto
-              </button>
+
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                 <button 
+                   onClick={() => setIsGuideOpen(true)}
+                   className="group relative px-10 py-5 bg-white/5 border border-white/10 text-white rounded-2xl font-sport text-xs flex items-center justify-center gap-4 hover:bg-white/10 transition-all tracking-[0.2em] uppercase italic overflow-hidden"
+                 >
+                    <div className="absolute inset-0 bg-gradient-to-r from-secondary/0 via-secondary/10 to-secondary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                    <Activity size={18} className="text-secondary group-hover:rotate-12 transition-transform" /> 
+                    Estrategia Pro
+                 </button>
+              </div>
            </div>
         </div>
 
-        {/* TABS SELECTOR */}
-        <div className="flex bg-black/40 p-1.5 rounded-2xl border border-white/5 overflow-x-auto lg:overflow-visible no-scrollbar mb-10">
+        {/* TABS SELECTOR - HUD STYLE */}
+        <div className="flex items-center gap-2 p-2 bg-black/40 rounded-[2.5rem] border border-white/5 backdrop-blur-2xl mb-12 overflow-x-auto lg:overflow-visible no-scrollbar">
            {[
-             { id: 'payout', label: 'Ganancia Simple', icon: TrendingUp },
-             { id: 'parlay', label: 'Combinadas (Parlay)', icon: Layers },
-             { id: 'hedge', label: 'Hedge (Cobertura)', icon: ShieldCheck },
-             { id: 'value', label: 'Analizador de Valor', icon: Search },
-             { id: 'converter', label: 'Convertidor', icon: RefreshCw },
+             { id: 'payout', label: 'PAYOUT', icon: TrendingUp },
+             { id: 'parlay', label: 'PARLAY', icon: Layers },
+             { id: 'hedge', label: 'HEDGE', icon: ShieldCheck },
+             { id: 'value', label: 'VALUE', icon: Search },
+             { id: 'converter', label: 'ODDS', icon: RefreshCw },
            ].map((tab) => (
               <button
                  key={tab.id}
                  onClick={() => setActiveTab(tab.id)}
-                 className={`relative flex items-center gap-3 px-6 py-3 rounded-xl transition-all duration-500 whitespace-nowrap ${activeTab === tab.id ? 'text-white' : 'text-white/30 hover:text-white/50'}`}
+                 className={`relative flex items-center gap-3 px-8 py-4 rounded-[2rem] transition-all duration-700 whitespace-nowrap group ${activeTab === tab.id ? 'text-white' : 'text-white/20 hover:text-white/40'}`}
               >
                  {activeTab === tab.id && (
-                    <motion.div layoutId="activeTab" className="absolute inset-0 bg-secondary rounded-xl shadow-lg shadow-secondary/20" />
+                    <motion.div 
+                      layoutId="activeTabHUD" 
+                      className={`absolute inset-0 rounded-[2rem] shadow-2xl ${theme === 'mlb' ? 'bg-secondary/20 border border-secondary/30' : 'bg-white/10'}`} 
+                      transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                    />
                  )}
-                 <tab.icon size={14} className="relative z-10" />
-                 <span className="relative z-10 font-sport text-[10px] uppercase tracking-widest italic">{tab.label}</span>
+                 <tab.icon size={16} className={`relative z-10 transition-colors ${activeTab === tab.id ? 'text-secondary' : 'text-white/10'}`} />
+                 <span className="relative z-10 font-sport text-xs uppercase tracking-[0.2em] italic font-black">{tab.label}</span>
               </button>
            ))}
         </div>
@@ -215,30 +229,34 @@ const BetCalculator = () => {
         <AnimatePresence mode="wait">
            <motion.div
              key={activeTab}
-             initial={{ opacity: 0, y: 20 }}
-             animate={{ opacity: 1, y: 0 }}
-             exit={{ opacity: 0, y: -20 }}
-             transition={{ duration: 0.3 }}
-             className={`rounded-3xl border border-white/5 overflow-hidden shadow-3xl ${theme === 'mlb' ? 'bg-[#00142D]/60' : 'bg-[#111111]/60'} backdrop-blur-3xl`}
+             initial={{ opacity: 0, scale: 0.98 }}
+             animate={{ opacity: 1, scale: 1 }}
+             exit={{ opacity: 0, scale: 1.02 }}
+             className={`rounded-[3rem] border border-white/5 overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.5)] ${theme === 'mlb' ? 'bg-[#00142D]' : 'bg-[#0A0A0A]'} relative`}
            >
-              <div className="grid grid-cols-1 lg:grid-cols-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
+              <div className="grid grid-cols-1 lg:grid-cols-12">
                  {/* INPUT SIDE */}
-                 <div className="p-8 lg:p-12 border-b lg:border-b-0 lg:border-r border-white/5">
+                 <div className="lg:col-span-7 p-8 lg:p-16 border-b lg:border-b-0 lg:border-r border-white/5 relative z-10">
                     {activeTab === 'payout' && (
                        <div className="space-y-8">
                           <div className="space-y-4">
-                             <label className="text-[10px] font-black text-white/30 uppercase tracking-widest ml-1">Monto de Apuesta (Units)</label>
-                             <div className="relative">
-                                <input 
-                                  type="text" 
-                                  inputMode="decimal"
-                                  value={stake} 
-                                  onChange={handleInputChange(setStake)}
-                                  onFocus={handleFocus}
-                                  className="w-full bg-black/40 border border-white/10 rounded-2xl h-20 px-8 text-white font-sport text-4xl italic outline-none focus:border-secondary transition-all"
-                                />
-                                <div className="absolute right-6 top-1/2 -translate-y-1/2 text-white/20 font-sport italic text-2xl">U</div>
-                             </div>
+                              <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-1 flex items-center gap-2">
+                                 <div className="w-1.5 h-1.5 rounded-full bg-secondary shadow-[0_0_10px_rgba(255,184,0,0.5)]" />
+                                 Monto de Apuesta
+                              </label>
+                              <div className="relative group">
+                                 <div className="absolute -inset-1 bg-gradient-to-r from-secondary/20 to-primary/20 rounded-3xl blur opacity-0 group-focus-within:opacity-100 transition duration-500" />
+                                 <input 
+                                   type="text" 
+                                   inputMode="decimal"
+                                   value={stake} 
+                                   onChange={handleInputChange(setStake)}
+                                   onFocus={handleFocus}
+                                   className="relative w-full bg-black/40 border border-white/10 rounded-3xl h-24 px-10 text-white font-sport text-5xl italic outline-none focus:border-secondary/50 focus:bg-black/60 transition-all shadow-inner"
+                                 />
+                                 <div className="absolute right-10 top-1/2 -translate-y-1/2 text-white/10 font-sport italic text-3xl group-focus-within:text-secondary transition-colors">UNITS</div>
+                              </div>
                              <input 
                                type="range" 
                                min="1" 
@@ -252,16 +270,19 @@ const BetCalculator = () => {
 
                           <div className="space-y-4">
                              <div className="flex justify-between items-end ml-1">
-                                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest">Cuota de Apuesta</label>
+                                <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-1 flex items-center gap-2">
+                                   <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+                                   Cuota de Apuesta
+                                </label>
                                 <div className="flex bg-black/40 p-1 rounded-lg border border-white/5">
                                    <button 
                                      onClick={() => setOddsFormat('american')}
                                      className={`px-3 py-1 rounded-md text-[9px] font-black uppercase transition-all ${oddsFormat === 'american' ? 'bg-secondary text-white' : 'text-white/20'}`}
-                                   >US (+/-)</button>
+                                   >US</button>
                                    <button 
                                      onClick={() => setOddsFormat('decimal')}
                                      className={`px-3 py-1 rounded-md text-[9px] font-black uppercase transition-all ${oddsFormat === 'decimal' ? 'bg-secondary text-white' : 'text-white/20'}`}
-                                   >DEC (2.0)</button>
+                                   >DEC</button>
                                 </div>
                              </div>
                              <input 
@@ -270,7 +291,7 @@ const BetCalculator = () => {
                                value={odds} 
                                onChange={handleInputChange(setOdds)}
                                onFocus={handleFocus}
-                               className="w-full bg-black/40 border border-white/10 rounded-2xl h-20 px-8 text-white font-sport text-4xl italic outline-none focus:border-secondary transition-all"
+                               className="w-full bg-black/40 border border-white/10 rounded-3xl h-24 px-10 text-white font-sport text-5xl italic outline-none focus:border-secondary transition-all"
                                placeholder={oddsFormat === 'american' ? '+100' : '2.00'}
                              />
                           </div>
@@ -483,149 +504,140 @@ const BetCalculator = () => {
                  </div>
 
                  {/* RESULTS SIDE */}
-                 <div className={`p-8 lg:p-12 ${theme === 'mlb' ? 'bg-secondary/5' : 'bg-white/5'} flex flex-col justify-center`}>
-                    <div className="flex items-center gap-3 text-secondary font-black uppercase tracking-[0.3em] text-[9px] mb-8">
-                       <Zap size={14} className="fill-current" /> Resultado del Análisis
-                    </div>
-
-                    {activeTab === 'payout' && (
-                       <div className="space-y-10">
-                          <div className="space-y-2">
-                             <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Ganancia Neta (Profit)</p>
-                             <div className="text-6xl lg:text-7xl font-sport italic text-emerald-400 tracking-tighter">
-                                +{calculatePayout().profit}U
-                             </div>
-                          </div>
-                          <div className="grid grid-cols-2 gap-8">
-                             <div className="space-y-2">
-                                <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Retorno Total</p>
-                                <div className="text-3xl font-sport italic text-white tracking-tighter">
-                                   {calculatePayout().payout}U
-                                </div>
-                             </div>
-                             <div className="space-y-2">
-                                <p className="text-[10px] font-black text-secondary uppercase tracking-widest">Prob. de Éxito (Casa)</p>
-                                <div className="text-3xl font-sport italic text-secondary tracking-tighter">
-                                   {calculatePayout().probability}%
-                                </div>
-                             </div>
-                          </div>
+                 <div className={`lg:col-span-5 p-8 lg:p-16 ${theme === 'mlb' ? 'bg-[#001E46]' : 'bg-[#111111]'} flex flex-col justify-center relative`}>
+                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5 pointer-events-none" />
+                    <div className="relative z-10 w-full">
+                       <div className="flex items-center gap-3 text-secondary font-black uppercase tracking-[0.4em] text-[10px] mb-12">
+                          <Zap size={16} className="fill-current animate-bounce" /> RESULTADO FINAL
                        </div>
-                    )}
 
-                    {activeTab === 'parlay' && (
-                       <div className="space-y-10">
-                          <div className="grid grid-cols-2 gap-8">
+                       {activeTab === 'payout' && (
+                          <div className="space-y-10">
                              <div className="space-y-2">
-                                <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Cuota Total (US)</p>
-                                <div className="text-3xl font-sport italic text-secondary tracking-tighter">
-                                   {calculateParlay().totalOdds > 0 ? '+' : ''}{calculateParlay().totalOdds}
+                                <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Ganancia Neta (Profit)</p>
+                                <div className="text-6xl lg:text-7xl font-sport italic text-emerald-400 tracking-tighter">
+                                   +{calculatePayout().profit}U
                                 </div>
                              </div>
-                             <div className="space-y-2">
-                                <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Probabilidad</p>
-                                <div className="text-3xl font-sport italic text-white tracking-tighter">
-                                   {calculateParlay().probability}%
+                             <div className="grid grid-cols-2 gap-8">
+                                <div className="space-y-2">
+                                   <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Retorno Total</p>
+                                   <div className="text-3xl font-sport italic text-white tracking-tighter">
+                                      {calculatePayout().payout}U
+                                   </div>
                                 </div>
-                             </div>
-                          </div>
-                          <div className="space-y-2 pt-8 border-t border-white/5">
-                             <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Ganancia Potencial</p>
-                             <div className="text-6xl lg:text-7xl font-sport italic text-emerald-400 tracking-tighter">
-                                +{calculateParlay().profit}U
-                             </div>
-                          </div>
-                       </div>
-                    )}
-
-                    {activeTab === 'hedge' && (
-                       <div className="space-y-10">
-                          <div className="p-8 rounded-3xl bg-secondary border border-secondary text-white shadow-2xl shadow-secondary/20">
-                             <p className="text-[10px] font-black text-white/60 uppercase tracking-widest mb-2">Stake de Cobertura Sugerido</p>
-                             <div className="text-6xl font-sport italic tracking-tighter mb-4">
-                                {calculateHedge().hedgeStake}U
-                             </div>
-                             <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-white/60">
-                                <ChevronRight size={12} /> Apostar a Cuota {hedgeOdds}
-                             </div>
-                          </div>
-                          <div className="grid grid-cols-2 gap-8">
-                             <div className="space-y-2">
-                                <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Ganancia Asegurada</p>
-                                <div className={`text-3xl font-sport italic tracking-tighter ${parseFloat(calculateHedge().guaranteedProfit) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                                   {calculateHedge().guaranteedProfit}U
-                                </div>
-                             </div>
-                             <div className="space-y-2">
-                                <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Inversión Total</p>
-                                <div className="text-3xl font-sport italic text-white tracking-tighter">
-                                   {calculateHedge().totalInvestment}U
+                                <div className="space-y-2">
+                                   <p className="text-[10px] font-black text-secondary uppercase tracking-widest">Prob. Éxito</p>
+                                   <div className="text-3xl font-sport italic text-secondary tracking-tighter">
+                                      {calculatePayout().probability}%
+                                   </div>
                                 </div>
                              </div>
                           </div>
-                       </div>
-                    )}
+                       )}
 
-                    {activeTab === 'value' && (() => {
-                       const valueData = calculateValue();
-                       const VerdictIcon = valueData.verdict.icon;
-                       return (
-                        <div className="space-y-10">
-                           <div className={`p-8 rounded-3xl border ${valueData.verdict.border} ${valueData.verdict.bg} transition-all duration-500`}>
-                              <div className="flex items-center gap-3 mb-4">
-                                 <VerdictIcon className={valueData.verdict.color} size={20} />
-                                 <span className={`text-[11px] font-black uppercase tracking-widest ${valueData.verdict.color}`}>
-                                    Veredicto del Analizador
-                                 </span>
-                              </div>
-                              <div className={`text-4xl lg:text-5xl font-sport italic tracking-tighter mb-2 ${valueData.verdict.color}`}>
-                                 {valueData.verdict.label}
-                              </div>
-                              <p className="text-[10px] text-white/40 uppercase font-black tracking-widest mb-6">
-                                 {parseFloat(valueData.edge) >= 0 ? 'Ventaja sobre la casa' : 'Desventaja detectada'}: {valueData.edge}%
-                              </p>
+                       {activeTab === 'parlay' && (
+                          <div className="space-y-10">
+                             <div className="grid grid-cols-2 gap-8">
+                                <div className="space-y-2">
+                                   <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Cuota Total</p>
+                                   <div className="text-3xl font-sport italic text-secondary tracking-tighter">
+                                      {calculateParlay().totalOdds > 0 ? '+' : ''}{calculateParlay().totalOdds}
+                                   </div>
+                                </div>
+                                <div className="space-y-2">
+                                   <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Probabilidad</p>
+                                   <div className="text-3xl font-sport italic text-white tracking-tighter">
+                                      {calculateParlay().probability}%
+                                   </div>
+                                </div>
+                             </div>
+                             <div className="space-y-2 pt-8 border-t border-white/5">
+                                <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Ganancia Potencial</p>
+                                <div className="text-6xl lg:text-7xl font-sport italic text-emerald-400 tracking-tighter">
+                                   +{calculateParlay().profit}U
+                                </div>
+                             </div>
+                          </div>
+                       )}
 
-                              <div className="pt-6 border-t border-white/5">
-                                 <div className="flex items-center gap-2 text-secondary mb-2">
-                                    <Zap size={12} />
-                                    <span className="text-[9px] font-bold uppercase tracking-tighter italic">Consejo Pro</span>
+                       {activeTab === 'hedge' && (
+                          <div className="space-y-10">
+                             <div className="p-8 rounded-3xl bg-secondary border border-secondary text-white shadow-2xl shadow-secondary/20">
+                                <p className="text-[10px] font-black text-white/60 uppercase tracking-widest mb-2">Stake Sugerido</p>
+                                <div className="text-6xl font-sport italic tracking-tighter mb-4">
+                                   {calculateHedge().hedgeStake}U
+                                </div>
+                                <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-white/60">
+                                   <ChevronRight size={12} /> Apostar a Cuota {hedgeOdds}
+                                </div>
+                             </div>
+                             <div className="grid grid-cols-2 gap-8">
+                                <div className="space-y-2">
+                                   <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Ganancia Asegurada</p>
+                                   <div className={`text-3xl font-sport italic tracking-tighter ${parseFloat(calculateHedge().guaranteedProfit) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                                      {calculateHedge().guaranteedProfit}U
+                                   </div>
+                                </div>
+                                <div className="space-y-2">
+                                   <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Inversión Total</p>
+                                   <div className="text-3xl font-sport italic text-white tracking-tighter">
+                                      {calculateHedge().totalInvestment}U
+                                   </div>
+                                </div>
+                             </div>
+                          </div>
+                       )}
+
+                       {activeTab === 'value' && (() => {
+                          const valueData = calculateValue();
+                          const VerdictIcon = valueData.verdict.icon;
+                          return (
+                           <div className="space-y-10">
+                              <div className={`p-8 rounded-3xl border ${valueData.verdict.border} ${valueData.verdict.bg} transition-all duration-500`}>
+                                 <div className="flex items-center gap-3 mb-4">
+                                    <VerdictIcon className={valueData.verdict.color} size={20} />
+                                    <span className={`text-[11px] font-black uppercase tracking-widest ${valueData.verdict.color}`}>
+                                       Veredicto
+                                    </span>
                                  </div>
-                                 <p className="text-[10px] text-white/60 leading-relaxed italic">
-                                    {valueData.verdict.label === 'VALOR DETECTADO' 
-                                      ? "¡Esta es la jugada! Tienes la ventaja matemática. Procede con gestión de banca."
-                                      : "Los expertos suelen ignorar los amarillos y rojos, esperando solo el verde. ¡La paciencia llena la billetera!"}
+                                 <div className={`text-4xl lg:text-5xl font-sport italic tracking-tighter mb-2 ${valueData.verdict.color}`}>
+                                    {valueData.verdict.label}
+                                 </div>
+                                 <p className="text-[10px] text-white/40 uppercase font-black tracking-widest">
+                                    {parseFloat(valueData.edge) >= 0 ? 'Ventaja' : 'Desventaja'}: {valueData.edge}%
                                  </p>
                               </div>
-                           </div>
 
-                           <div className="grid grid-cols-2 gap-8 pt-6">
-                              <div className="space-y-2">
-                                 <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Prob. Implícita (Casa)</p>
-                                 <div className="text-3xl font-sport italic text-white tracking-tighter">
-                                    {valueData.houseProb}%
+                              <div className="grid grid-cols-2 gap-8 pt-6">
+                                 <div className="space-y-2">
+                                    <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Prob. Casa</p>
+                                    <div className="text-3xl font-sport italic text-white tracking-tighter">
+                                       {valueData.houseProb}%
+                                    </div>
+                                 </div>
+                                 <div className="space-y-2">
+                                    <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Prob. Gurú</p>
+                                    <div className="text-3xl font-sport italic text-white tracking-tighter">
+                                       {guruProb}%
+                                    </div>
                                  </div>
                               </div>
-                              <div className="space-y-2">
-                                 <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Prob. Gurú AI</p>
-                                 <div className="text-3xl font-sport italic text-white tracking-tighter">
-                                    {guruProb}%
-                                 </div>
-                              </div>
                            </div>
-                        </div>
-                       );
-                    })()}
+                          );
+                       })()}
 
-                    {activeTab === 'converter' && (
-                       <div className="space-y-10">
-                          <div className="p-8 rounded-3xl bg-white/5 border border-white/10 text-center text-white/20">
-                             <p className="text-[10px] font-black uppercase tracking-widest mb-4">Probabilidad</p>
-                             <div className="text-5xl font-sport italic tracking-tighter">
-                                {(100 / americanToDecimal(odds)).toFixed(1)}%
+                       {activeTab === 'converter' && (
+                          <div className="space-y-10">
+                             <div className="p-8 rounded-3xl bg-white/5 border border-white/10 text-center text-white/20">
+                                <p className="text-[10px] font-black uppercase tracking-widest mb-4">Probabilidad</p>
+                                <div className="text-5xl font-sport italic tracking-tighter text-white">
+                                   {(100 / americanToDecimal(odds)).toFixed(1)}%
+                                </div>
                              </div>
                           </div>
-                       </div>
-                    )}
+                       )}
+                    </div>
                  </div>
               </div>
            </motion.div>
